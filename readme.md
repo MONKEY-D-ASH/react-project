@@ -41,3 +41,50 @@ Key Characteristics of Components
 1. Reusability: You can write a single Button or UserProfile component and render it hundreds of times with different data.
 2. Nesting: Components can be placed inside other components. An entire webpage is structured as a hierarchical tree of nested components starting from a single "root" component.
 3. Isolation: Every component manages its own internal mechanics without interfering with the rest of the web application.
+
+# HOW TO CREATE YOUR OWN REACT LIBRARY AND JSX 
+
+NOTE: react is just a ton of javascript that is written by somebody else and a lot of algotrithms which makes the manipulation in the DOM much more consistent and easier, thats all. It just helps you in manipulating the UI 
+
+# react element : 
+A React element is a plain, lightweight JavaScript object that describes what you want to see on the screen. It is the smallest building block of a React application.
+When you write JSX code like const element = <h1>Hello</h1>;, it compiles down to a standard React Element Object via a 
+React.createElement() call.
+
+# STATE IN REACT: 
+state is a built-in object used to store data that changes over time within a component. Think of it as a component's personal memory. Whenever the data inside a state object changes, React automatically forces the component to re-render so the user interface stays perfectly in sync with the new data.
+
+To create a state component we use the useState() method which returns a stateful value (a variable) and a function to update it. and in the useState() you have to pass the initial value of the variable 
+
+by maintaining this state method the react is able to update the value in the whole dom and hence it resolves the ghost or phantom problem initially faced by the facebook 
+
+<!------------------------------------------------------------------------------------------------------------------------------->
+## react flow of execution 
+# Phase 1: Build Time (Happens on your computer via Vite/Webpack/Babel)
+ Babel is a build tool. It converts your human-readable JSX into plain JavaScript before your website is deployed or loaded.
+ 
+ 1. The Translation: Babel takes your <App /> and component files and transforms all JSX tags into standard JavaScript functions.- Old React: Babel turned <div>Hello</div> into React.createElement('div', null, 'Hello').
+ - Modern React (17+): Babel turns it into a special internal function called _jsx('div', { children: 'Hello' }).
+ 2. The Output: The file that actually gets shipped to the browser contains zero JSX. It is pure, compiled JavaScript.
+ 
+ # Phase 2: Runtime (Happens in the browser when root.render runs)
+ Now, the user opens your webpage, your JavaScript file runs, and root.render(<App />) is triggered.
+ 1. Executing the Functions: React executes root.render(). Because Babel already compiled everything, the browser isn't reading <App />. It is executing the compiled _jsx or .createElement functions.
+ 2. Creating the Objects: As these functions execute from the top of the component tree down to the bottom, they instantly return plain JavaScript objects.For example, a button tag becomes: { type: 'button', props: { className: 'btn', children: 'Click' } }.
+ 3. Building the Virtual DOM: You are spot on here. React collects all of these plain JavaScript objects and links them together. This tree of objects is the Virtual DOM.
+ 4. The Initial Commit: Because this is the very first render, React doesn't have an old tree to compare it to. It takes this entire Virtual DOM structure, translates those JavaScript objects into real HTML nodes (like document.createElement('div')), and injects them all at once into the browser's DOM.
+ ( the browser maintains copy of your index.html file in its live memory based on which it creates the real dom and the react have access to this DOM structure in which it injects this newly generated node )
+ 5. The Screen Paints: The browser receives the new HTML nodes, calculates the layout, and paints the pixels on the user's screen.
+ 
+ # summary
+  Babel compiles (at build time) → Code is shipped → root.render triggers → .createElement runs → Virtual DOM forms → Screen.
+
+
+# What Triggers a Render?
+A component will only render under two primary scenarios:
+Initial Render: When your application first loads, React must call the root component to build the very first UI snapshot on the screen.
+State Updates: Once the app is running, updating a component's state (e.g., using useState's setter function) automatically queues a re-render for that specific component.
+
+# The Domino Effect (Re-rendering Children)
+When a component re-renders because its state changes, React recursively re-renders all of its child components by default, regardless of whether their props changed
+
